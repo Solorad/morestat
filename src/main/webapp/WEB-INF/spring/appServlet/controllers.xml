@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Maps '/' requests to the 'home' view -->
+	<mvc:view-controller path="/" view-name="home"/>
+	
+	<context:component-scan base-package="com.morenkov.ee.morestat" />
+
+	<bean id="instagram" class="org.jinstagram.Instagram" scope="session">
+		<constructor-arg value="df5cc67d71e04b1b9a89ca9e1572a801"/>
+		<aop:scoped-proxy/>
+	</bean>
+
+	<bean id="instagramApi" class="org.jinstagram.auth.InstagramApi"/>
+
+	<bean id="oAuthConfig" class="org.jinstagram.auth.model.OAuthConfig">
+		<constructor-arg type="java.lang.String" value="df5cc67d71e04b1b9a89ca9e1572a801"/>
+		<constructor-arg type="java.lang.String" value="8da04f4072a54579ae4e334d5e865fa4"/>
+		<constructor-arg type="java.lang.String" value="http://localhost:8080/morestat/profile"/>
+		<constructor-arg type="java.lang.String" value="basic likes comments relationships"/>
+	</bean>
+
+	<bean id="instagramService" factory-bean="instagramApi" factory-method="createService">
+		<constructor-arg ref="oAuthConfig"/>
+	</bean>
+
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="ru_RU" />
+	</bean>
+
+	<bean id="localeChangeInterceptor"
+		  class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="language" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
+		<property name="interceptors">
+			<list>
+				<ref bean="localeChangeInterceptor" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Register the morestat.properties -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="i18n.morestat" />
+	</bean>
+</beans>

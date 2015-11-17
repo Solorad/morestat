@@ -1,0 +1,52 @@
+{
+    "configuration": {
+        "status": "debug",
+        "name": "RoutingTest",
+        "properties": {
+            "property": {
+                "name": "Directory",
+                "value": "${sys:user.home}/logs"
+            },
+            "property": {
+                "name": "FileName",
+                "value": "test.log"
+            }
+        },
+        "packages": "org.apache.logging.log4j.test",
+        "ThresholdFilter": {
+            "level": "debug"
+        },
+        "appenders": {
+            "Console": {
+                "name": "consoleAppender",
+                "target": "SYSTEM_OUT",
+                "PatternLayout": {
+                    "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+                }
+            },
+            "RollingRandomAccessFile": {
+                "name": "rollingRandomAccessFileAppender",
+                "fileName": "logs/app.log",
+                "filePattern": "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz",
+                "PatternLayout": {
+                    "pattern": "%d %p %c{1.} [%t] %m%n"
+                },
+                "Policies": {
+                    "SizeBasedTriggeringPolicy": {
+                        "size": "50MB"
+                    }
+                }
+            }
+        },
+        "loggers": {
+            "logger": {
+                "level": "debug",
+                "appender-ref": [{ "ref": "consoleAppender"}, { "ref": "rollingRandomAccessFileAppender"}]
+            },
+            "root": {
+                "level":"debug",
+                "appender-ref": [{ "ref": "consoleAppender"}, { "ref": "rollingRandomAccessFileAppender"}]
+            }
+        }
+    }
+}
