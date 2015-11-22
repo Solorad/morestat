@@ -34,8 +34,12 @@
                     </a>
                 </c:if>
                 <span>
-                    <img src="resources/images/rusFlag.png" id="russianLanguage" class="insta-ico" alt="Russian language"/>
-                    <img src="resources/images/engFlag.png" id="englishLanguage" class="insta-ico" alt="English language"/>
+                    <button id="russianLanguageButton"  type="button" class="btn btn-default">
+                        <img src="resources/images/rusFlag.png" id="russianLanguage" class="insta-ico" alt="Russian language"/>
+                    </button>
+                    <button id="englishLanguageButton"  type="button" class="btn btn-default">
+                        <img src="resources/images/engFlag.png" id="englishLanguage" class="insta-ico" alt="English language"/>
+                    </button>
                 </span>
             </span>
     </div>
