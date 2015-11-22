@@ -1,4 +1,4 @@
-package com.morenkov.ee.morestat.application;
+package com.morenkov.ee.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author emorenkov
  */
-//@Configuration
-//@ComponentScan({"com.morenkov.ee.morestat"})
+@Configuration
 public class SpringRootConfig {
 }
