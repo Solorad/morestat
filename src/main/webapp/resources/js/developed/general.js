@@ -2,11 +2,10 @@ var Morestat = Morestat || {};
 
 Morestat.Login = (function() {
     function init() {
-        $("#russianLanguageButton").on("click", function() {
-            $.get("/rest/locale", "ru_RU");
-        });
-        $("#englishLanguageButton").on("click", function() {
-            $.get("/rest/locale", "en");
+        $(".language-chooser").on("click", function() {
+            $.get(baseUrl + "/rest/locale", {"locale" : $(this).val()}).done(function() {
+                location.reload();
+            });
         });
     }
 
@@ -15,4 +14,5 @@ Morestat.Login = (function() {
     }
 })();
 
-Morestat.Login.init();
+//Morestat.Login.init();
+//

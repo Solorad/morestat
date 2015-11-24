@@ -26,76 +26,76 @@ public class MainPageController {
 
     public static final String ACTIVE_TAB = "activeTab";
 
-    private InstagramService instagramService;
-    private Instagram instagram;
+//    private InstagramService instagramService;
+//    private Instagram instagram;
+//
+//    @Autowired
+//    public MainPageController(InstagramService instagramService, Instagram instagram) {
+//        this.instagramService = instagramService;
+//        this.instagram = instagram;
+//    }
 
-    @Autowired
-    public MainPageController(InstagramService instagramService, Instagram instagram) {
-        this.instagramService = instagramService;
-        this.instagram = instagram;
-    }
 
 
+//    @ModelAttribute
+//    public void instagramAttribute(Model model) {
+//        if (instagram != null && instagram.getAccessToken() != null) {
+//            model.addAttribute(Constants.INSTAGRAM, instagram);
+//        }
+//    }
 
-    @ModelAttribute
-    public void instagramAttribute(Model model) {
-        if (instagram != null && instagram.getAccessToken() != null) {
-            model.addAttribute(Constants.INSTAGRAM, instagram);
-        }
-    }
-
-    @ModelAttribute("instagramService")
-    public InstagramService instagramServiceAttribute() {
-        return instagramService;
-    }
+//    @ModelAttribute("instagramService")
+//    public InstagramService instagramServiceAttribute() {
+//        return instagramService;
+//    }
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String index(Model model) {
         logger.debug("index() is executed!");
-        model.addAttribute("authorizationUrl", instagramService.getAuthorizationUrl(null));
+        model.addAttribute("authorizationUrl", "rewrew");
         return "index";
     }
 
-    @RequestMapping(value={"/profile"})
-    public String profile(@RequestParam(value = "code", required = false) String code, Model model) {
-        if (!isEmpty(code)) {
-            Verifier verifier = new Verifier(code);
-
-            Token accessToken = instagramService.getAccessToken(null, verifier);
-            instagram.setAccessToken(accessToken);
-        }
-        model.addAttribute(ACTIVE_TAB, "profile");
-        return "profile";
-    }
-
-    @RequestMapping(value={"/gallery"})
-    public String gallery(Model model) {
-        logger.debug("gallery() is executed!");
-        model.addAttribute(ACTIVE_TAB, "gallery");
-        return "gallery";
-    }
-
-    @RequestMapping(value="/logout")
-    public String logout(HttpSession session, Model model) {
-        logger.debug("logout() is executed!");
-
-        session.removeAttribute(Constants.INSTAGRAM);
-        session.removeAttribute(Constants.INSTAGRAM_SERVICE);
-        model.addAttribute(ACTIVE_TAB, "logout");
-        return "logout";
-    }
-
-    @RequestMapping(value="/popular")
-    public String popular(Model model) {
-        logger.debug("popular() is executed!");
-        model.addAttribute(ACTIVE_TAB, "popular");
-        return "popular";
-    }
-
-    @RequestMapping(value="/search")
-    public String search(Model model) {
-        logger.debug("search() is executed!");
-        model.addAttribute(ACTIVE_TAB, "search");
-        return "search";
-    }
+//    @RequestMapping(value={"/profile"})
+//    public String profile(@RequestParam(value = "code", required = false) String code, Model model) {
+//        if (!isEmpty(code)) {
+//            Verifier verifier = new Verifier(code);
+//
+//            Token accessToken = instagramService.getAccessToken(null, verifier);
+//            instagram.setAccessToken(accessToken);
+//        }
+//        model.addAttribute(ACTIVE_TAB, "profile");
+//        return "profile";
+//    }
+//
+//    @RequestMapping(value={"/gallery"})
+//    public String gallery(Model model) {
+//        logger.debug("gallery() is executed!");
+//        model.addAttribute(ACTIVE_TAB, "gallery");
+//        return "gallery";
+//    }
+//
+//    @RequestMapping(value="/logout")
+//    public String logout(HttpSession session, Model model) {
+//        logger.debug("logout() is executed!");
+//
+//        session.removeAttribute(Constants.INSTAGRAM);
+//        session.removeAttribute(Constants.INSTAGRAM_SERVICE);
+//        model.addAttribute(ACTIVE_TAB, "logout");
+//        return "logout";
+//    }
+//
+//    @RequestMapping(value="/popular")
+//    public String popular(Model model) {
+//        logger.debug("popular() is executed!");
+//        model.addAttribute(ACTIVE_TAB, "popular");
+//        return "popular";
+//    }
+//
+//    @RequestMapping(value="/search")
+//    public String search(Model model) {
+//        logger.debug("search() is executed!");
+//        model.addAttribute(ACTIVE_TAB, "search");
+//        return "search";
+//    }
 }

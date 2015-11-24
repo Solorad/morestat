@@ -10,6 +10,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.QueryParam;
 import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -22,21 +23,21 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class RestMorestatResource {
     private static final Logger LOG = LogManager.getLogger(RestMorestatResource.class);
 
-    private final SessionLocaleResolver localeResolver;
+//    private final SessionLocaleResolver localeResolver;
 
-    @Autowired
-    public RestMorestatResource(SessionLocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
+//    @Autowired
+//    public RestMorestatResource(SessionLocaleResolver localeResolver) {
+//        this.localeResolver = localeResolver;
+//    }
 
     @RequestMapping(value = "/locale", method= RequestMethod.GET)
-    void setLocale(String localeStr, HttpServletRequest request, HttpServletResponse response) {
-        if (isEmpty(localeStr)) {
+    public void setLocale(@QueryParam("locale") String locale, HttpServletRequest request, HttpServletResponse response) {
+        if (isEmpty(locale)) {
             LOG.error("Locale String must be not empty!");
             return;
         }
-        Locale locale = Locale.forLanguageTag(localeStr);
+        Locale localeValue = Locale.forLanguageTag(locale);
         LOG.debug("Setting locale to {}", locale);
-        localeResolver.setLocale(request, response, locale);
+//        localeResolver.setLocale(request, response, localeValue);
     }
 }
