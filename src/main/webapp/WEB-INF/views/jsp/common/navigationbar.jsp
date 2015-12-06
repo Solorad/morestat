@@ -18,18 +18,20 @@
             <a class="navbar-brand" href="#">MORESTAT</a>
         </div>
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li <c:if test="${activeTab == 'profile'}">class="active" </c:if>><a href="profile">
-                    <spring:message code="morestat.main-page.profile" text="profile"/></a></li>
-                <li <c:if test="${activeTab == 'gallery'}">class="active" </c:if>><a href="gallery"><spring:message
-                        code="morestat.main-page.gallery" text="gallery"/></a></li>
-                <li <c:if test="${activeTab == 'popular'}">class="active" </c:if>><a href="popular"><spring:message
-                        code="morestat.main-page.popular" text="popular"/></a></li>
-                <li <c:if test="${activeTab == 'search'}">class="active" </c:if>><a href="search"><spring:message
-                        code="morestat.main-page.search" text="search"/></a></li>
-                <li <c:if test="${activeTab == 'logout'}">class="active" </c:if>><a href="logout"><spring:message
-                        code="morestat.main-page.logout" text="logout"/></a></li>
-            </ul>
+            <c:if test="${empty  authorizationUrl}">
+                <ul class="nav navbar-nav">
+                    <li <c:if test="${activeTab == 'profile'}">class="active" </c:if>><a href="profile">
+                        <spring:message code="morestat.main-page.profile" text="profile"/></a></li>
+                    <li <c:if test="${activeTab == 'gallery'}">class="active" </c:if>><a href="gallery"><spring:message
+                            code="morestat.main-page.gallery" text="gallery"/></a></li>
+                    <li <c:if test="${activeTab == 'popular'}">class="active" </c:if>><a href="popular"><spring:message
+                            code="morestat.main-page.popular" text="popular"/></a></li>
+                    <li <c:if test="${activeTab == 'search'}">class="active" </c:if>><a href="search"><spring:message
+                            code="morestat.main-page.search" text="search"/></a></li>
+                    <li <c:if test="${activeTab == 'logout'}">class="active" </c:if>><a href="logout"><spring:message
+                            code="morestat.main-page.logout" text="logout"/></a></li>
+                </ul>
+            </c:if>
             <span class="nav navbar-nav navbar-right">
                 <c:if test="${not empty  authorizationUrl}">
                     <a href="${authorizationUrl}"

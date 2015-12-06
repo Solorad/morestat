@@ -1,24 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page import="org.jinstagram.Instagram" %>
-
-<%@ page import="org.jinstagram.entity.users.basicinfo.UserInfoData" %>
-<%@ page import="com.morenkov.ee.morestat.utils.constants.Constants" %>
-
-
-<%
-    Object objInstagram = session.getAttribute(Constants.INSTAGRAM);
-
-    Instagram instagram = null;
-
-    if (objInstagram != null) {
-        instagram = (Instagram) objInstagram;
-    } else {
-        response.sendRedirect(request.getContextPath());
-        return;
-    }
-%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="common/header.jsp"/>
 <jsp:include page="common/navigationbar.jsp"/>
@@ -26,24 +8,21 @@
 
 <!-- Page Content -->
 <div class="container">
+    <div class="userInfo">
+        <img class="user-avatar" src="${userInfoData.profilePicture}"/> <br/>
 
-    <div class="row">
-
-        <div class="col-lg-12">
-            <h1 class="page-header">User Profile</h1>
+        <div>
+            <div class="media-descr">
+                <span class="general-info">${userInfoData.getCounts().follows}</span>
+                <span class="general-info-description"><spring:message code="morestat.profile-page.followers" text="Followers"/></span>
+            <div>
+                <span class="general-info">${userInfoData.getCounts().followedBy}</span>
+                <span class="general-info-description"><spring:message code="morestat.profile-page.following" text="Following"/></span>
+            </div>
+            <div>
+                <span class="general-info">${userInfoData.getCounts().media}</span>
+                <span class="general-info-description"><spring:message code="morestat.profile-page.posts" text="Posts"/></span>
+            </div>
         </div>
-        <%UserInfoData userInfoData = instagram.getCurrentUserInfo().getData();%>
-        <p class="lead">
-            <img src="<%=userInfoData.getProfilePicture()%>"/> <br/>
-        <p>Username : <%=userInfoData.getUsername()%></p>
-
-        <% if (userInfoData.getWebsite() != null){%>
-        <p>Сайт: <%=userInfoData.getWebsite()%></p>
-        <%}%>
-        <p>Follows : <%=userInfoData.getCounts().getFollows()%></p>
-        <p>Followed By : <%=userInfoData.getCounts().getFollowedBy()%>
-        </p>
-        <p>Media Count : <%=userInfoData.getCounts().getMedia()%></p>
-    </div>
 
 <jsp:include page="common/footer.jsp"/>

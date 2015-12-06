@@ -41,7 +41,7 @@
 
         <p>
 
-        <form action="search.jsp" method="post">
+        <form action="search" method="post">
             Tag # <input type="text" name="tag"/> &nbsp; <input type="submit" name="submit" value="Submit">
 
             <input type="hidden" name="searchType" value="tag"/>
