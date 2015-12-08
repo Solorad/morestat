@@ -24,3 +24,32 @@
 .general-info-description{
     color: #4d5257;
 }
+
+.insta-info {
+    position: relative;
+    float: left;
+}
+
+.stat-info {
+    position: relative;
+    float: left;
+}
+
+.likes-count::before {
+    content: '♥';
+}
+
+.comment-count::before {
+    content: '\01f4ac'
+}
+
+.photo-container {
+    position: relative;
+    float: left;
+}
+
+.insta-image {
+    max-width:300px;
+    max-height: 300px;
+    margin-left: 10px;
+}

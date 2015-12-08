@@ -8,6 +8,8 @@ import org.jinstagram.Instagram;
 import org.jinstagram.auth.model.Token;
 import org.jinstagram.auth.model.Verifier;
 import org.jinstagram.auth.oauth.InstagramService;
+import org.jinstagram.entity.common.Comments;
+import org.jinstagram.entity.common.ImageData;
 import org.jinstagram.entity.common.Likes;
 import org.jinstagram.entity.users.basicinfo.UserInfoData;
 import org.jinstagram.entity.users.feed.MediaFeed;
@@ -20,6 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -81,16 +86,26 @@ public class MainPageController {
             model.addAttribute("userInfoData", userInfoData);
             MediaFeed recentMediaFeed = instagram.getRecentMediaFeed(userInfoData.getId());
 
-            long totalLikes = recentMediaFeed.getData().stream()
-                                             .map(MediaFeedData::getLikes)
-                                             .mapToInt(Likes::getCount).sum();
-            long totalComments = 0;
-            for (MediaFeedData mediaFeedData : recentMediaFeed.getData()) {
-                totalLikes += mediaFeedData.getLikes().getCount();
-                totalComments += mediaFeedData.getComments().getCount();
-            }
-            UserStats userStats = new UserStats(totalLikes, totalComments);
-            model.addAttribute("userStats", userStats);
+            List<MediaFeedData> mediaFeed = recentMediaFeed.getData();
+            int totalLikes = mediaFeed.stream().collect(
+                    Collectors.summingInt((MediaFeedData data) -> data.getLikes().getCount()));
+            int totalComments = mediaFeed.stream().collect(
+                    Collectors.summingInt((MediaFeedData data) -> data.getComments().getCount()));
+
+            List<MediaFeedData> sortedByLikesMedia = new ArrayList<>(mediaFeed);
+            sortedByLikesMedia.sort(
+                    (MediaFeedData data1, MediaFeedData data2)
+                            -> data2.getLikes().getCount() - data1.getLikes().getCount());
+            List<MediaFeedData> sortedByCommentsMedia = new ArrayList<>(mediaFeed);
+            sortedByCommentsMedia.sort(
+                    (MediaFeedData data1, MediaFeedData data2)
+                            -> data2.getComments().getCount() - data1.getComments().getCount());
+
+            model.addAttribute("totalLikes", totalLikes);
+            model.addAttribute("totalComments", totalComments);
+            model.addAttribute("sortedByLikesMedia", sortedByLikesMedia);
+            model.addAttribute("sortedByCommentsMedia", sortedByCommentsMedia);
+
         } catch (InstagramException e) {
             logger.error("Instagram exception occurred.");
         }
