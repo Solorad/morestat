@@ -46,10 +46,17 @@
 .photo-container {
     position: relative;
     float: left;
+    display: inline-block;
+    margin-right: 4%;
+    padding: 1%;
+    box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
+    background-color: #202629;
+    -webkit-transition: all .2s ease-in-out;
+    box-sizing: border-box;
 }
 
 .insta-image {
-    max-width:300px;
+    width: 20%;
     max-height: 300px;
     margin-left: 10px;
 }
