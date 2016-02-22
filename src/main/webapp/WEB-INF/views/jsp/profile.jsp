@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="popularComments">
+        <div class="photoFeed">
             <c:forEach items="${sortedByLikesMedia}" var="media">
             <div class="photo-container">
                 <div>

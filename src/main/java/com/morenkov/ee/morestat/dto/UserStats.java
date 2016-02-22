@@ -31,4 +31,30 @@ public class UserStats {
     public void setTotalComments(Long totalComments) {
         this.totalComments = totalComments;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserStats)) {
+            return false;
+        }
+
+        UserStats userStats = (UserStats) o;
+
+        if (totalLikes != null ? !totalLikes.equals(userStats.totalLikes) : userStats.totalLikes != null) {
+            return false;
+        }
+        return !(totalComments != null ? !totalComments.equals(userStats.totalComments)
+                                       : userStats.totalComments != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = totalLikes != null ? totalLikes.hashCode() : 0;
+        result = 31 * result + (totalComments != null ? totalComments.hashCode() : 0);
+        return result;
+    }
 }
