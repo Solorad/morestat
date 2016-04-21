@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.BitSet;
 

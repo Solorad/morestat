@@ -4,16 +4,32 @@
     height: 24px;
 }
 
-.userInfo {
+.profile__info {
     margin-top: 70px;
     background-color: #f9f9f9;
 }
 
-.user-avatar {
-    border-radius: 7px;
+.user__avatar {
+    position: relative;
+    float: left;
 }
 
-.general-info {
+.user__avatar__img {
+    border-radius: 7px;
+    width: 100px;
+}
+
+.user__stat {
+    position: relative;
+    float: left;
+}
+
+.user__media {
+    position: relative;
+    float: left;
+}
+
+.bold_text {
     font-weight: 700;
     font-style: normal;
     font-size: 20px;
@@ -21,18 +37,8 @@
     color: #35383c;
 }
 
-.general-info-description{
+.general_text {
     color: #4d5257;
-}
-
-.insta-info {
-    position: relative;
-    float: left;
-}
-
-.stat-info {
-    position: relative;
-    float: left;
 }
 
 .likes-count::before {
@@ -43,11 +49,25 @@
     content: '\01f4ac'
 }
 
+
+.total_likes::before {
+    content: '♥';
+}
+
+.total_comments::before {
+    content: '\01f4ac'
+}
+
+.photo_feed {
+    position: relative;
+}
+
 .photo-container {
     position: relative;
     float: left;
     display: inline-block;
-    margin-right: 4%;
+    margin-right: 10px;
+    margin-top: 10px;
     padding: 1%;
     box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
     background-color: #b86d5c;
@@ -61,6 +81,7 @@
     margin-left: 10px;
 }
 
-div.container {
+.layout__content {
+    margin: 10px;
     width: 100% !important;
 }

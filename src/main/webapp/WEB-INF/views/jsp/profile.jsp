@@ -7,60 +7,56 @@
 
 
 <!-- Page Content -->
-<div class="container">
-    <div class="userInfo">
-        <div class="insta-info">
-            <img class="user-avatar" src="${userInfoData.profilePicture}"/> <br/>
-
-            <div class="media-descr">
-                <span class="general-info">${userInfoData.getCounts().follows}</span>
-                <span class="general-info-description">
-                    <spring:message code="morestat.profile-page.followers" text="Followers"/>
-                </span>
-
-                <div>
-                    <span class="general-info">${userInfoData.getCounts().followedBy}</span>
-                    <span class="general-info-description">
+<div class="layout__content">
+    <div class="profile">
+        <div class="profile__info">
+            <div class="user__avatar">
+                <img class="user__avatar__img" src="${userInfoData.profilePicture}"/> <br/>
+            </div>
+            <div class="user__media">
+                <span class="bold_text">${userInfoData.getCounts().follows}</span>
+            <span class="general_text">
+                <spring:message code="morestat.profile-page.followers" text="Followers"/>
+            </span>
+                <br/>
+            <span>
+                <span class="bold_text">${userInfoData.getCounts().followedBy}</span>
+                    <span class="general_text">
                         <spring:message code="morestat.profile-page.following" text="Following"/>
                     </span>
-                </div>
-                <div>
-                    <span class="general-info">${userInfoData.getCounts().media}</span>
-                    <span class="general-info-description">
+            </span>
+                <br/>
+            <span>
+                <span class="bold_text">${userInfoData.getCounts().media}</span>
+                    <span class="general_text">
                         <spring:message code="morestat.profile-page.posts" text="Posts"/>
                     </span>
+            </span>
+            </div>
+            <div class="user__stat">
+                <div>
+                    <span class="total_likes"></span>
+                    <span class="bold_text">${totalLikes}</span>
                 </div>
-            </div>
-        </div>
-
-        <div class="stat-info">
-            <div>
-                <span class="general-info-description">
-                    <spring:message code="morestat.profile-page.total-likes" text="Total likes"/>
-                </span>
-                <span class="general-info">${totalLikes}</span>
-            </div>
-            <div>
-                <span class="general-info-description">
-                    <spring:message code="morestat.profile-page.total-comments" text="Total comments"/>
-                </span>
-                <span class="general-info">
+                <div>
+                    <span class="total_comments"></span>
+                <span class="bold_text">
                     ${totalComments}
                 </span>
+                </div>
             </div>
         </div>
-
-        <div class="photoFeed">
+        <div class="photo_feed">
             <c:forEach items="${sortedByLikesMedia}" var="media">
-            <div class="photo-container">
-                <div>
-                    <img src="${media.images.standardResolution.imageUrl}" alt="insta-image" class="insta-image"/>
+                <div class="photo-container">
+                    <div>
+                        <img src="${media.images.standardResolution.imageUrl}" alt="insta-image" class="insta-image"/>
+                    </div>
+                    <div class="photo-info">
+                        <span class="likes-count">${media.likes.count}</span>
+                        <span class="comment-count">${media.comments.count}</span>
+                    </div>
                 </div>
-                <div class="photo-info">
-                    <span class="likes-count">${media.likes.count}</span>
-                    <span class="comment-count">${media.comments.count}</span>
-                </div>
-            </div>
             </c:forEach>
         </div>
     </div>
