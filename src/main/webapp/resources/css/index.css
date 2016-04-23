@@ -1,0 +1,5 @@
+.authorization_button__message::before {
+    background: url("../images/instagram.png");
+    width: 24px;
+    height: 24px;
+}

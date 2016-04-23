@@ -1,32 +1,18 @@
-.insta-ico {
-    /*background: url("../images/instagram.png");*/
-    width: 24px;
-    height: 24px;
-}
-
 .profile__info {
     margin-top: 70px;
     background-color: #f9f9f9;
 }
 
-.user__avatar {
-    position: relative;
-    float: left;
-}
-
-.user__avatar__img {
-    border-radius: 7px;
-    width: 100px;
-}
-
 .user__stat {
     position: relative;
     float: left;
+    margin-left: 10px;
 }
 
 .user__media {
     position: relative;
     float: left;
+    margin-left: 10px;
 }
 
 .bold_text {
@@ -42,7 +28,12 @@
 }
 
 .likes-count::before {
-    content: '♥';
+     content: '♥';
+     font-size: 20px;
+ }
+
+.likes-count::before:hover {
+    color: #ff2650;
 }
 
 .comment-count::before {
@@ -52,17 +43,21 @@
 
 .total_likes::before {
     content: '♥';
+    font-size: 30px;
+    color: #ff2650;
 }
 
 .total_comments::before {
-    content: '\01f4ac'
+    content: '\01f4ac';
+    font-size: 25px;
 }
 
-.photo_feed {
+.profile_cards {
     position: relative;
+    float: left;
 }
 
-.photo-container {
+.profile_card {
     position: relative;
     float: left;
     display: inline-block;
@@ -70,9 +65,12 @@
     margin-top: 10px;
     padding: 1%;
     box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
-    background-color: #b86d5c;
     -webkit-transition: all .2s ease-in-out;
     box-sizing: border-box;
+}
+
+.card {
+    background-color: #b86d5c;
 }
 
 .insta-image {

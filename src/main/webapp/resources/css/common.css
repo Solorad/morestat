@@ -1,3 +1,47 @@
 .header__right {
+    position: relative;
     float: right;
+}
+
+.header_title {
+    position: relative;
+    float: left;
+}
+
+
+.header__language_rus {
+    background-image: url('../images/rusFlag.png');
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+}
+
+.header__language_eng {
+    background-image: url('../images/engFlag.png');
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+}
+
+.user__avatar {
+    position: relative;
+    float: left;
+    margin-right: 20px;
+}
+
+.user__avatar__img {
+    border-radius: 7px;
+    width: 100px;
+}
+
+.layout__content {
+    margin: 80px 0 0 20px;
+}
+
+.footer {
+    margin-left: 30px;
+}
+
+.updated_padding {
+    padding: 5px 10px 5px 5px  !important;
 }

@@ -10,10 +10,12 @@
     <meta name="author" content="Morenkov Evgenii">
     <title>Morestat, analytic tool</title>
 
-    <spring:url value="/resources/css/mainPage.css" var="mainPageCss"/>
+    <spring:url value="/resources/css/bootstrap-theme.min.css" var="bootstrapThemeCss"/>
+    <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+    <spring:url value="/resources/css/common.css" var="commonCss"/>
     <spring:url value="/resources/images/favicon.ico" var="favicon"/>
-    <link href="${mainPageCss}" rel="stylesheet"/>
+    <link href="${bootstrapCss}" rel="stylesheet"/>
+    <link href="${bootstrapThemeCss}" rel="stylesheet"/>
+    <link href="${commonCss}" rel="stylesheet"/>
     <link href="${favicon}" rel="shortcut icon"/>
-</head>
 
-<body>

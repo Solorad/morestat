@@ -6,7 +6,7 @@
 
     <groupId>com.morenkov.ee</groupId>
     <artifactId>morestat</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.01-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
