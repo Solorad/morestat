@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @EnableWebMvc
 @Configuration
-@ImportResource("WEB-INF/spring/controllers.xml")
+@ImportResource("/spring/controllers.xml")
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
     private static final Logger LOG = LogManager.getLogger(SpringWebConfig.class);
 
@@ -54,11 +54,4 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         SessionLocaleResolver resolver= new SessionLocaleResolver();
         return resolver;
     }
-
-    @Bean
-    // Only used when running in embedded servlet
-    public DispatcherServlet dispatcherServlet() {
-        return new DispatcherServlet();
-    }
-
 }

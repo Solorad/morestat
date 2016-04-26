@@ -10,7 +10,6 @@ import org.jinstagram.entity.users.feed.MediaFeed;
 import org.jinstagram.entity.users.feed.MediaFeedData;
 import org.jinstagram.exceptions.InstagramException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 @SessionAttributes({"instagram", "instagramService"})
 public class MainPageController {
     private static final Logger logger = LogManager.getLogger(MainPageController.class);
-    private OAuth2RestTemplate oAuth2RestTemplate;
+//    private OAuth2RestTemplate oAuth2RestTemplate;
 
     public static final String ACTIVE_TAB = "activeTab";
 

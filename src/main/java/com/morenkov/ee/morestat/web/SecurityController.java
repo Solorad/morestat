@@ -17,7 +17,6 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * @author emorenkov
  */
 @Controller
-
 public class SecurityController {
     private static final Logger LOG = LogManager.getLogger(MainPageController.class);
     private final Instagram instagram;
