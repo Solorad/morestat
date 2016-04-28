@@ -19,7 +19,6 @@ import javax.servlet.ServletException;
  * @author emorenkov
  */
 @SpringBootApplication
-@EnableOAuth2Sso
 @EnableAutoConfiguration
 @ComponentScan
 public class Application extends SpringBootServletInitializer {
