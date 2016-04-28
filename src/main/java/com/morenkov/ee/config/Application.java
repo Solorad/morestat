@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
  * @author emorenkov
  */
 @SpringBootApplication
+@EnableOAuth2Sso
 @EnableAutoConfiguration
 @ComponentScan
 public class Application extends SpringBootServletInitializer {
