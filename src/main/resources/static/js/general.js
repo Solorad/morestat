@@ -13,6 +13,3 @@ Morestat.Login = (function() {
         init: init
     }
 })();
-
-//Morestat.Login.init();
-//
