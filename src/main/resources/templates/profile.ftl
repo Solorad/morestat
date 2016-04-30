@@ -2,13 +2,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="common/header.ftl"/>
 <spring:url value="/resources/css/profile.css" var="profileCss"/>
 <link href="${profileCss}" rel="stylesheet"/>
 </head>
 
 <body>
-<jsp:include page="common/navigationbar.jsp"/>
+<jsp:include page="common/navigationbar.ftl"/>
 
 
 <!-- Page Content -->
@@ -72,4 +72,4 @@
     </div>
 </div>
 
-<jsp:include page="common/footer.jsp"/>
+<jsp:include page="common/footer.ftl"/>

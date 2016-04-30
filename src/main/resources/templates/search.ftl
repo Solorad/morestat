@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="common/header.ftl"/>
 
 
 
@@ -27,8 +27,8 @@
 
 %>
 
-<jsp:include page="common/header.jsp"/>
-<jsp:include page="common/navigationbar.jsp"/>
+<jsp:include page="common/header.ftl"/>
+<jsp:include page="common/navigationbar.ftl"/>
 
 <!-- Page Content -->
 <div class="container">
@@ -122,4 +122,4 @@
         %>
     </div>
 
-<jsp:include page="common/footer.jsp"/>
+<jsp:include page="common/footer.ftl"/>

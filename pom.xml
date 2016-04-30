@@ -6,7 +6,7 @@
 
     <groupId>com.morenkov.ee</groupId>
     <artifactId>morestat</artifactId>
-    <version>1.0.02-SNAPSHOT</version>
+    <version>1.0.03-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -19,13 +19,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <jetty.version>9.3.8.v20160314</jetty.version>
+        <java.version>1.8</java.version>
     </properties>
 
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -34,14 +35,18 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
 
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
         <!--<dependency>-->
@@ -70,18 +75,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-            <version>1.2.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
 
         <dependency>
             <groupId>com.sachinhandiekar</groupId>

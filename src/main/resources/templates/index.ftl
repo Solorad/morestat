@@ -1,13 +1,9 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-
-<jsp:include page="common/header.jsp"/>
-<spring:url value="/resources/css/index.css" var="indexCss"/>
-<link href="${indexCss}" rel="stylesheet"/>
+<#include "/common/header.ftl">
+<link href="/css/index.css" rel="stylesheet"/>
 </head>
 
 <body>
-<jsp:include page="common/navigationbar.jsp"/>
+<#include "/common/navigationbar.ftl">
 <div class="container-fluid">
     <div class="layout__content">
         <h1>Сбор статистики Instagram</h1>
@@ -19,4 +15,4 @@
     </div>
 </div>
 
-<jsp:include page="common/footer.jsp"/>
+<#include "/common/footer.ftl">
