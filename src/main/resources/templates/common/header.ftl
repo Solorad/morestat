@@ -10,6 +10,6 @@
     <title>Morestat, analytic tool</title>
 
     <link href="/images/favicon.png" rel="shortcut icon"/>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="css/common.css"/>
 

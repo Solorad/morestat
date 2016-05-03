@@ -5,10 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jinstagram.Instagram;
 import org.jinstagram.auth.oauth.InstagramService;
-import org.jinstagram.entity.users.basicinfo.UserInfoData;
-import org.jinstagram.entity.users.feed.MediaFeed;
-import org.jinstagram.entity.users.feed.MediaFeedData;
-import org.jinstagram.exceptions.InstagramException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * @author emorenkov
  */
 @Controller
-@SessionAttributes({"instagram", "instagramService"})
+@SessionAttributes({"jInstagram", "instagramService"})
 public class MainPageController {
     private static final Logger logger = LogManager.getLogger(MainPageController.class);
 //    private OAuth2RestTemplate oAuth2RestTemplate;
@@ -34,18 +25,18 @@ public class MainPageController {
     public static final String ACTIVE_TAB = "activeTab";
 
     private InstagramService instagramService;
-    private Instagram instagram;
+    private Instagram jInstagram;
 
     @Autowired
-    public MainPageController(InstagramService instagramService, Instagram instagram) {
+    public MainPageController(InstagramService instagramService, Instagram jInstagram) {
         this.instagramService = instagramService;
-        this.instagram = instagram;
+        this.jInstagram = jInstagram;
     }
 
     @ModelAttribute
     public void instagramAttribute(Model model) {
-        if (instagram != null && instagram.getAccessToken() != null) {
-            model.addAttribute(Constants.INSTAGRAM, instagram);
+        if (jInstagram != null && jInstagram.getAccessToken() != null) {
+            model.addAttribute(Constants.INSTAGRAM, jInstagram);
         }
     }
 
@@ -60,9 +51,6 @@ public class MainPageController {
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String index(Model model) {
         logger.debug("index() is executed!");
-        if (isAllowedResource()) {
-            return "profile";
-        }
 
         model.addAttribute("authorizationUrl", instagramService.getAuthorizationUrl(null));
         return "index";
@@ -70,15 +58,12 @@ public class MainPageController {
 
     @RequestMapping(value={"/profile"})
     public String profile(Model model) {
-        if (!isAllowedResource()) {
-            return "index";
-        }
         model.addAttribute(ACTIVE_TAB, "profile");
 
-        try {
-            UserInfoData userInfoData = instagram.getCurrentUserInfo().getData();
+        /*try {
+            UserInfoData userInfoData = jInstagram.getCurrentUserInfo().getData();
             model.addAttribute("userInfoData", userInfoData);
-            MediaFeed recentMediaFeed = instagram.getRecentMediaFeed(userInfoData.getId());
+            MediaFeed recentMediaFeed = jInstagram.getRecentMediaFeed(userInfoData.getId());
 
             List<MediaFeedData> mediaFeed = recentMediaFeed.getData();
             int totalLikes = mediaFeed.stream().collect(
@@ -102,7 +87,7 @@ public class MainPageController {
 
         } catch (InstagramException e) {
             logger.error("Instagram exception occurred.");
-        }
+        }*/
         return "profile";
     }
 
@@ -112,28 +97,13 @@ public class MainPageController {
     @RequestMapping(value={"/gallery"})
     public String gallery(Model model) {
         logger.debug("gallery() is executed!");
-        if (!isAllowedResource()) {
-            return "index";
-        }
-
         model.addAttribute(ACTIVE_TAB, "gallery");
         return "gallery";
     }
-
-    @RequestMapping(value="/logout")
-    public String logout(HttpSession session, Model model) {
-        logger.debug("logout() is executed!");
-        instagram.setAccessToken(null);
-        model.addAttribute(ACTIVE_TAB, "logout");
-        return "logout";
-    }
-
+    
     @RequestMapping(value="/popular")
     public String popular(Model model) {
         logger.debug("popular() is executed!");
-        if (!isAllowedResource()) {
-            return "index";
-        }
         model.addAttribute(ACTIVE_TAB, "popular");
         return "popular";
     }
@@ -141,14 +111,7 @@ public class MainPageController {
     @RequestMapping(value="/search")
     public String search(Model model) {
         logger.debug("search() is executed!");
-        if (!isAllowedResource()) {
-            return "index";
-        }
         model.addAttribute(ACTIVE_TAB, "search");
         return "search";
-    }
-
-    private boolean isAllowedResource() {
-        return instagram.getAccessToken() != null;
     }
 }
