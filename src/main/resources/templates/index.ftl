@@ -6,11 +6,9 @@
 <#include "/common/navigationbar.ftl">
 <div class="container-fluid">
     <div class="layout__content">
-        <h1>Сбор статистики Instagram</h1>
+        <h1><@spring.message "morestat.main-page.description-header"/></h1>
         <p>
-            Узнайте сколько лайков вы получили, ваше самое популярное фото, среднее число лайков и комментариев к
-            фото.
-            Изменение числа фолловеров и многое другое.
+        <@spring.message "morestat.main-page.morestat.main-page.description"/>
         </p>
     </div>
 </div>
