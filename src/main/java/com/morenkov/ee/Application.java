@@ -1,18 +1,14 @@
-package com.morenkov.ee.config;
+package com.morenkov.ee;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author emorenkov
  */
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan
 public class Application extends SpringBootServletInitializer {
 
 

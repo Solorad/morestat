@@ -86,10 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private Filter ssoFilter(ClientResources client, String path) {
-        System.out.println("HERE!!!");
-        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path) {
-
-        };
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate filterTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
         filter.setRestTemplate(filterTemplate);
         filter.setTokenServices(new UserInfoTokenServices(client.getResource().getUserInfoUri(),
