@@ -19,18 +19,20 @@
                 <li class="nav-item<#if activeTab == 'search'> active</#if>">
                     <a href="search"><@spring.message "morestat.main-page.search"/> </a>
                 </li>
-                <li class="nav-item<#if activeTab == 'logout'> active</#if>">
-                    <a href="logout" class="nav-link"><@spring.message "morestat.main-page.logout"/></a>
-                </li>
             </ul>
         </#if>
         <ul class="nav nav-pills pull-xs-right">
-            <#if authorizationUrl??>
+            <#if unauthorized == true>
                 <li class="nav-item">
-                    <a href="/login" class="updated_padding nav-link">
+                    <a href="https://api.instagram.com/oauth/authorize/?client_id=df5cc67d71e04b1b9a89ca9e1572a801&redirect_uri=http://localhost:8080/profile&response_type=code"
+                       class="updated_padding nav-link">
                         <img src="/images/instagram-512.png" width="32px"/>
                         <span><@spring.message "morestat.main-page.button.login"/></span>
                     </a>
+                </li>
+            <#else>
+                <li class="nav-item">
+                    <a href="logout" class="nav-link"><@spring.message "morestat.main-page.logout"/></a>
                 </li>
             </#if>
             <li class="nav-item">

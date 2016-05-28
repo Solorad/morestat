@@ -1,5 +1,6 @@
 package com.morenkov.ee.config;
 
+import com.morenkov.ee.config.security.InstagramAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -43,7 +44,7 @@ import java.io.IOException;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    OAuth2ClientContext oauth2ClientContext;
+    private OAuth2ClientContext oauth2ClientContext;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
                 .and().logout().logoutSuccessUrl("/").permitAll()
                 .and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-                .addFilterBefore(ssoFilter(instagram(), "/login"), BasicAuthenticationFilter.class);
+                .addFilterBefore(myFilter(instagram(), "/profile"), BasicAuthenticationFilter.class);
     }
 
     @Configuration
@@ -83,6 +84,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @ConfigurationProperties("instagram")
     ClientResources instagram() {
         return new ClientResources();
+    }
+
+
+    private Filter myFilter(ClientResources client, String path) {
+        InstagramAuthenticationFilter filter = new InstagramAuthenticationFilter(path, oauth2ClientContext);
+        filter.setTokenServices(new UserInfoTokenServices(client.getResource().getUserInfoUri(),
+                                                          client.getClient().getClientId()));
+        filter.setClientResources(client.getClient());
+        return filter;
     }
 
     private Filter ssoFilter(ClientResources client, String path) {

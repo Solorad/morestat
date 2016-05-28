@@ -1,14 +1,12 @@
 package com.morenkov.ee.morestat.web;
 
-import com.morenkov.ee.morestat.utils.constants.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jinstagram.Instagram;
-import org.jinstagram.auth.oauth.InstagramService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -24,25 +22,8 @@ public class MainPageController {
 
     public static final String ACTIVE_TAB = "activeTab";
 
-    private InstagramService instagramService;
-    private Instagram jInstagram;
 
-    @Autowired
-    public MainPageController(InstagramService instagramService, Instagram jInstagram) {
-        this.instagramService = instagramService;
-        this.jInstagram = jInstagram;
-    }
-
-    @ModelAttribute
-    public void instagramAttribute(Model model) {
-        if (jInstagram != null && jInstagram.getAccessToken() != null) {
-            model.addAttribute(Constants.INSTAGRAM, jInstagram);
-        }
-    }
-
-    @ModelAttribute("instagramService")
-    public InstagramService instagramServiceAttribute() {
-        return instagramService;
+    public MainPageController() {
     }
 
 
@@ -51,8 +32,10 @@ public class MainPageController {
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String index(Model model) {
         logger.debug("index() is executed!");
-
-        model.addAttribute("authorizationUrl", instagramService.getAuthorizationUrl(null));
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        model.addAttribute("unauthorized", true);
+        model.addAttribute("activeTab", "index");
         return "index";
     }
 
