@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -66,7 +67,8 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
             if (accessToken == null || accessToken.isExpired()) {
                 InstagramResult instagramResult = getInstagramResponse(request);
                 System.out.println(instagramResult);
-                accessToken = tokenServices.readAccessToken(instagramResult.getAccess_token());
+                accessToken = new DefaultOAuth2AccessToken(instagramResult.getAccess_token());
+                context.setAccessToken(accessToken);
             }
             OAuth2Authentication result = tokenServices.loadAuthentication(accessToken.getValue());
             if (authenticationDetailsSource != null) {
