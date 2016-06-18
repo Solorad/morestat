@@ -1,17 +1,28 @@
 package com.morenkov.ee.config.security;
 
+import com.morenkov.ee.config.security.dto.InstagramResult;
+import com.morenkov.ee.config.security.dto.InstagramUser;
+import com.morenkov.ee.config.security.dto.SelfResult;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetailsSource;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
@@ -24,35 +35,33 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author emorenkov
  */
 public class InstagramAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    private static final Logger logger = LogManager.getLogger(InstagramAuthenticationFilter.class);
 
-    private RestTemplate restTemplate = new RestTemplate();
-    private ResourceServerTokenServices tokenServices;
-    private OAuth2ProtectedResourceDetails client;
-    private OAuth2ClientContext context;
+    // no need in OAuth2RestTemplate here.
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final OAuth2ProtectedResourceDetails client;
+    private final OAuth2ClientContext context;
+    private final String userInfoUri;
 
     private AuthenticationDetailsSource<HttpServletRequest, ?>
             authenticationDetailsSource = new OAuth2AuthenticationDetailsSource();
 
-    public InstagramAuthenticationFilter(String defaultFilterProcessesUrl, OAuth2ClientContext oauth2ClientContext) {
+    public InstagramAuthenticationFilter(String defaultFilterProcessesUrl,
+                                         OAuth2ClientContext oauth2ClientContext,
+                                         OAuth2ProtectedResourceDetails client,
+                                         String userInfoUri) {
         super(defaultFilterProcessesUrl);
-        setAuthenticationManager(new NoopAuthenticationManager());
         setAuthenticationDetailsSource(authenticationDetailsSource);
         this.context = oauth2ClientContext;
-    }
 
-
-    /**
-     * Reference to a CheckTokenServices that can validate an OAuth2AccessToken
-     *
-     * @param tokenServices
-     */
-    public void setTokenServices(ResourceServerTokenServices tokenServices) {
-        this.tokenServices = tokenServices;
+        this.client = client;
+        this.userInfoUri = userInfoUri + "?access_token={access_token}";
     }
 
 
@@ -61,27 +70,30 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
                                                 HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
-        OAuth2AccessToken accessToken = context.getAccessToken();
-
+        OAuth2Authentication oAuth2Authentication = null;
         try {
+            OAuth2AccessToken accessToken = context.getAccessToken();
             if (accessToken == null || accessToken.isExpired()) {
                 InstagramResult instagramResult = getInstagramResponse(request);
-                System.out.println(instagramResult);
+                logger.debug(instagramResult);
                 accessToken = new DefaultOAuth2AccessToken(instagramResult.getAccess_token());
                 context.setAccessToken(accessToken);
+                oAuth2Authentication = extractAuthentication(instagramResult.getUser().getId());
+            } else {
+                InstagramUser instagramUser = getSelfResult(accessToken.getValue()).getData();
+                oAuth2Authentication = extractAuthentication(instagramUser.getId());
             }
-            OAuth2Authentication result = tokenServices.loadAuthentication(accessToken.getValue());
             if (authenticationDetailsSource != null) {
                 request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE, accessToken.getValue());
                 request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_TYPE, accessToken.getTokenType());
-                result.setDetails(authenticationDetailsSource.buildDetails(request));
+                oAuth2Authentication.setDetails(authenticationDetailsSource.buildDetails(request));
             }
         } catch (InvalidTokenException e) {
             throw new BadCredentialsException("Could not obtain user details from token", e);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(ExceptionUtils.getStackTrace(e));
         }
-        return null;
+        return oAuth2Authentication;
 
     }
 
@@ -96,26 +108,26 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
         body.add("grant_type", "authorization_code");
         body.add("redirect_uri", "http://localhost:8080/profile");
         body.add("code", code);
-        HttpEntity<MultiValueMap<String, String>> entity =
-                new HttpEntity<>(body, requestHeaders);
-        System.out.println("here");
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, requestHeaders);
         ResponseEntity<InstagramResult> exchange = restTemplate
-                .exchange(client.getAccessTokenUri(), HttpMethod.POST, entity, InstagramResult.class);
+                .postForEntity(client.getAccessTokenUri(), entity, InstagramResult.class);
         return exchange.getBody();
     }
 
-    public void setClientResources(OAuth2ProtectedResourceDetails client) {
-        this.client = client;
+    private SelfResult getSelfResult(String accessToken) {
+        ResponseEntity<SelfResult> exchange = restTemplate
+                .exchange(userInfoUri, HttpMethod.GET, null, SelfResult.class, accessToken);
+        return exchange.getBody();
     }
 
 
-    private static class NoopAuthenticationManager implements AuthenticationManager {
 
-        @Override
-        public Authentication authenticate(Authentication authentication)
-                throws AuthenticationException {
-            throw new UnsupportedOperationException("No authentication should be done with this AuthenticationManager");
-        }
-
+    private OAuth2Authentication extractAuthentication(String principal) {
+        List<GrantedAuthority> authorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
+        OAuth2Request request = new OAuth2Request(null, client.getClientId(), null, true, null,
+                                                  null, null, null, null);
+        return new OAuth2Authentication(request,
+                                        new UsernamePasswordAuthenticationToken(principal, "N/A", authorities));
     }
 }

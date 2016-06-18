@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 @SessionAttributes({"jInstagram", "instagramService"})
 public class MainPageController {
-    private static final Logger logger = LogManager.getLogger(MainPageController.class);
+    private static final Logger log = LogManager.getLogger(MainPageController.class);
 //    private OAuth2RestTemplate oAuth2RestTemplate;
 
     public static final String ACTIVE_TAB = "activeTab";
@@ -31,7 +31,7 @@ public class MainPageController {
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String index(Model model) {
-        logger.debug("index() is executed!");
+        log.debug("index() is executed!");
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         model.addAttribute("unauthorized", true);
@@ -41,6 +41,7 @@ public class MainPageController {
 
     @RequestMapping(value={"/profile"})
     public String profile(Model model) {
+        log.debug("In profile!");
         model.addAttribute(ACTIVE_TAB, "profile");
 
         /*try {
@@ -69,7 +70,7 @@ public class MainPageController {
             model.addAttribute("sortedByCommentsMedia", sortedByCommentsMedia);
 
         } catch (InstagramException e) {
-            logger.error("Instagram exception occurred.");
+            log.error("Instagram exception occurred.");
         }*/
         return "profile";
     }
@@ -79,21 +80,21 @@ public class MainPageController {
 
     @RequestMapping(value={"/gallery"})
     public String gallery(Model model) {
-        logger.debug("gallery() is executed!");
+        log.debug("gallery() is executed!");
         model.addAttribute(ACTIVE_TAB, "gallery");
         return "gallery";
     }
     
     @RequestMapping(value="/popular")
     public String popular(Model model) {
-        logger.debug("popular() is executed!");
+        log.debug("popular() is executed!");
         model.addAttribute(ACTIVE_TAB, "popular");
         return "popular";
     }
 
     @RequestMapping(value="/search")
     public String search(Model model) {
-        logger.debug("search() is executed!");
+        log.debug("search() is executed!");
         model.addAttribute(ACTIVE_TAB, "search");
         return "search";
     }
