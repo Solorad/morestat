@@ -106,7 +106,7 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
         body.add("client_id", client.getClientId());
         body.add("client_secret", client.getClientSecret());
         body.add("grant_type", "authorization_code");
-        body.add("redirect_uri", "http://localhost:8080/profile");
+        body.add("redirect_uri", "http://localhost:8080/login");
         body.add("code", code);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, requestHeaders);
         ResponseEntity<InstagramResult> exchange = restTemplate

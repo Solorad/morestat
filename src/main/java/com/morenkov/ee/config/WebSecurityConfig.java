@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
                 .and().logout().logoutSuccessUrl("/").permitAll()
-                .and().addFilterBefore(myFilter(instagram(), "/profile"), BasicAuthenticationFilter.class);
+                .and().addFilterBefore(myFilter(instagram(), "/login"), BasicAuthenticationFilter.class);
     }
 
     @Bean

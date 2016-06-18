@@ -5,7 +5,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <a class="navbar-brand" href="#">MORESTAT</a>
 
-        <#if !authorizationUrl??>
+        <#if !unauthorized??>
             <ul class="nav navbar-nav">
                 <li class="nav-item<#if activeTab == 'profile'> active</#if>">
                     <a href="profile"> <@spring.message "morestat.main-page.profile"/></a>
@@ -22,9 +22,9 @@
             </ul>
         </#if>
         <ul class="nav nav-pills pull-xs-right">
-            <#if unauthorized == true>
+            <#if unauthorized??>
                 <li class="nav-item">
-                    <a href="https://api.instagram.com/oauth/authorize/?client_id=df5cc67d71e04b1b9a89ca9e1572a801&redirect_uri=http://localhost:8080/profile&response_type=code"
+                    <a href="https://api.instagram.com/oauth/authorize/?client_id=df5cc67d71e04b1b9a89ca9e1572a801&redirect_uri=http://localhost:8080/login&response_type=code"
                        class="updated_padding nav-link">
                         <img src="/images/instagram-512.png" width="32px"/>
                         <span><@spring.message "morestat.main-page.button.login"/></span>
@@ -32,7 +32,9 @@
                 </li>
             <#else>
                 <li class="nav-item">
-                    <a href="logout" class="nav-link"><@spring.message "morestat.main-page.logout"/></a>
+                    <form action="/logout" method="post">
+                        <button type="submit" class="nav-link" ><@spring.message "morestat.main-page.logout"/></button>
+                    </form>
                 </li>
             </#if>
             <li class="nav-item">
