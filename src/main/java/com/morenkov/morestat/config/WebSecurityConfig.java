@@ -2,11 +2,11 @@ package com.morenkov.morestat.config;
 
 import com.morenkov.morestat.config.security.InstagramAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.Filter;
 
@@ -28,10 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
-
-    @Value("${instagram.resource.userInfoUri}")
-    private String userInfoUri;
-
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private Environment environment;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,6 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private Filter myFilter(OAuth2ProtectedResourceDetails client, String path) {
-        return new InstagramAuthenticationFilter(path, oauth2ClientContext, client, userInfoUri);
+        return new InstagramAuthenticationFilter(path, client, oauth2ClientContext, restTemplate, environment);
     }
 }

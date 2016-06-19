@@ -6,6 +6,7 @@ import com.morenkov.morestat.dto.users.basicinfo.UserInfoData;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -42,25 +43,28 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
     private static final Logger logger = LogManager.getLogger(InstagramAuthenticationFilter.class);
     public static final String USER = "instagramUser";
 
-    // no need in OAuth2RestTemplate here.
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final OAuth2ProtectedResourceDetails client;
     private final OAuth2ClientContext context;
+
     private final String userInfoUri;
+    private final String redirectUri;
 
     private AuthenticationDetailsSource<HttpServletRequest, ?>
             authenticationDetailsSource = new OAuth2AuthenticationDetailsSource();
 
     public InstagramAuthenticationFilter(String defaultFilterProcessesUrl,
-                                         OAuth2ClientContext oauth2ClientContext,
                                          OAuth2ProtectedResourceDetails client,
-                                         String userInfoUri) {
+                                         OAuth2ClientContext oauth2ClientContext,
+                                         RestTemplate restTemplate,
+                                         Environment environment) {
         super(defaultFilterProcessesUrl);
         setAuthenticationDetailsSource(authenticationDetailsSource);
         this.context = oauth2ClientContext;
-
         this.client = client;
-        this.userInfoUri = userInfoUri + "?access_token={access_token}";
+        this.restTemplate = restTemplate;
+        userInfoUri = environment.getProperty("instagram.resource.userInfoUri");
+        redirectUri = environment.getProperty("instagram.resource.redirectUri");
     }
 
 
@@ -105,7 +109,7 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
         body.add("client_id", client.getClientId());
         body.add("client_secret", client.getClientSecret());
         body.add("grant_type", "authorization_code");
-        body.add("redirect_uri", "http://localhost:8080/login");
+        body.add("redirect_uri", redirectUri);
         body.add("code", code);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, requestHeaders);
         ResponseEntity<InstagramResult> exchange = restTemplate
