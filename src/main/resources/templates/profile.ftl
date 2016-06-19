@@ -17,20 +17,20 @@
                 <div class="user__media">
                     <span class="bold_text">${userInfoData.getCounts().follows}</span>
                     <span class="general_text">
-                        <spring:message code="morestat.profile-page.followers" text="Followers"/>
+                        <@spring.message "morestat.profile-page.followers"/>
                     </span>
                     <br/>
                     <span>
                         <span class="bold_text">${userInfoData.getCounts().followedBy}</span>
                             <span class="general_text">
-                                <spring:message code="morestat.profile-page.following" text="Following"/>
+                                <@spring.message "morestat.profile-page.following"/>
                             </span>
                     </span>
                     <br/>
                     <span>
                         <span class="bold_text">${userInfoData.getCounts().media}</span>
                             <span class="general_text">
-                                <spring:message code="morestat.profile-page.posts" text="Posts"/>
+                                <@spring.message "morestat.profile-page.posts"/>
                             </span>
                     </span>
                 </div>
