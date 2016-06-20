@@ -4,30 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
+
 public class UserInfoData implements Serializable{
-	@JsonProperty("bio")
-	private String bio;
-
-	@JsonProperty("counts")
-	private Counts counts;
-
-	@JsonProperty("first_name")
-	private String firstName;
-
 	@JsonProperty("id")
 	private String id;
-
-	@JsonProperty("last_name")
-	private String lastName;
-
-	@JsonProperty("profile_picture")
-	private String profilePicture;
 
 	@JsonProperty("username")
 	private String username;
 
 	@JsonProperty("full_name")
 	private String fullName;
+
+	@JsonProperty("profile_picture")
+	private String profilePicture;
+
+	@JsonProperty("bio")
+	private String bio;
+
+	@JsonProperty("counts")
+	private Counts counts;
 
 	@JsonProperty("website")
 	private String website;
@@ -46,22 +41,6 @@ public class UserInfoData implements Serializable{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLast_name(String last_name) {
-		this.lastName = last_name;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
 	}
 
 	public String getProfilePicture() {
@@ -104,9 +83,16 @@ public class UserInfoData implements Serializable{
 		this.fullName = fullName;
 	}
 
-    @Override
-    public String toString() {
-        return String.format("UserInfoData [bio=%s, counts=%s, first_name=%s, id=%s, last_name=%s, profile_picture=%s, username=%s, fullName=%s, website=%s]",
-                        bio, counts, firstName, id, lastName, profilePicture, username, fullName, website);
-    }
+	@Override
+	public String toString() {
+		return "UserInfoData{" +
+			   "id='" + id + '\'' +
+			   ", username='" + username + '\'' +
+			   ", fullName='" + fullName + '\'' +
+			   ", profilePicture='" + profilePicture + '\'' +
+			   ", bio='" + bio + '\'' +
+			   ", counts=" + counts +
+			   ", website='" + website + '\'' +
+			   '}';
+	}
 }
