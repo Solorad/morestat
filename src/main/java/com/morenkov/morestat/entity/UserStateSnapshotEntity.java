@@ -1,6 +1,8 @@
 package com.morenkov.morestat.entity;
 
-import com.morenkov.morestat.dto.users.basicinfo.Counts;
+import com.morenkov.morestat.dto.users.basicinfo.UserInfoData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -10,10 +12,10 @@ import java.util.Set;
 /**
  * @author emorenkov
  */
-public class UserStateSnapshot {
+public class UserStateSnapshotEntity {
     @Id
     private String id;
-    private LocalDateTime snapshotMoment;
+    private LocalDateTime created;
     private String userId;
     private int media;
     private Set<String> followers;
@@ -23,7 +25,6 @@ public class UserStateSnapshot {
     private Map<String, Integer> userLikeMap;
     private Map<String, Integer> userCommentMap;
 
-
     public String getId() {
         return id;
     }
@@ -32,12 +33,12 @@ public class UserStateSnapshot {
         this.id = id;
     }
 
-    public LocalDateTime getSnapshotMoment() {
-        return snapshotMoment;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setSnapshotMoment(LocalDateTime snapshotMoment) {
-        this.snapshotMoment = snapshotMoment;
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public String getUserId() {
