@@ -1,25 +1,43 @@
 package com.morenkov.morestat.dto;
 
 import com.morenkov.morestat.dto.common.User;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author emorenkov
  */
+@Document
 public class UserStateSnapshot {
+    @Id
     private String id;
+    @Indexed
     private LocalDateTime created;
+    @Indexed
     private String userId;
     private int media;
     private Set<User> followers;
     private Set<User> followedBy;
-    private int totalLikes;
-    private int totalComments;
+    private Integer totalLikes;
+    private Integer totalComments;
     private Map<String, Integer> userLikeMap;
     private Map<String, Integer> userCommentMap;
+
+    public UserStateSnapshot() {
+        this.followers = new HashSet<>();
+        this.followedBy = new HashSet<>();
+        this.userLikeMap = new HashMap<>();
+        this.userCommentMap = new HashMap<>();
+        totalComments = 0;
+        totalLikes = 0;
+    }
 
     public String getId() {
         return id;

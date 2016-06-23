@@ -34,35 +34,38 @@
                             </span>
                     </span>
                 </div>
-                <div class="user__stat">
-                    <div>
-                        <span class="total_likes"></span>
-                        <span class="bold_text">${totalLikes}</span>
-                    </div>
-                    <div>
-                        <span class="total_comments"></span>
-                        <span class="bold_text">
-                        ${totalComments}
-                        </span>
-                    </div>
-                </div>
+                <#--<div class="user__stat">-->
+                    <#--<div>-->
+                        <#--<span class="total_likes"></span>-->
+                        <#--<span class="bold_text">${totalLikes}</span>-->
+                    <#--</div>-->
+                    <#--<div>-->
+                        <#--<span class="total_comments"></span>-->
+                        <#--<span class="bold_text">-->
+                        <#--${totalComments}-->
+                        <#--</span>-->
+                    <#--</div>-->
+                <#--</div>-->
             </div>
-            <div class="profile_cards">
-                <#list sortedByLikesMedia as media>
-                    <div class="profile_card">
-                        <div class="card">
-                            <div>
-                                <img src="${media.images.standardResolution.imageUrl}" alt="insta-image"
-                                     class="insta-image"/>
-                            </div>
-                            <div class="photo-info">
-                                <span class="likes-count">${media.likes.count}</span>
-                                <span class="comment-count">${media.comments.count}</span>
-                            </div>
-                        </div>
-                    </div>
-                </#list>
+            <div class="totalInfo">
+                More data is gathering...
             </div>
+            <#--<div class="profile_cards">-->
+                <#--<#list sortedByLikesMedia as media>-->
+                    <#--<div class="profile_card">-->
+                        <#--<div class="card">-->
+                            <#--<div>-->
+                                <#--<img src="${media.images.standardResolution.imageUrl}" alt="insta-image"-->
+                                     <#--class="insta-image"/>-->
+                            <#--</div>-->
+                            <#--<div class="photo-info">-->
+                                <#--<span class="likes-count">${media.likes.count}</span>-->
+                                <#--<span class="comment-count">${media.comments.count}</span>-->
+                            <#--</div>-->
+                        <#--</div>-->
+                    <#--</div>-->
+                <#--</#list>-->
+            <#--</div>-->
         </div>
     </div>
 </div>

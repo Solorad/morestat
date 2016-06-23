@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class Counts implements Serializable {
-	@JsonProperty("follows")
+	@JsonProperty("FOLLOWS")
 	private int follows;
 
 	@JsonProperty("followed_by")
@@ -40,6 +40,6 @@ public class Counts implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Counts [follows=%s, followed_by=%s, media=%s]", follows, followedBy, media);
+        return String.format("Counts [FOLLOWS=%s, followed_by=%s, media=%s]", follows, followedBy, media);
     }
 }

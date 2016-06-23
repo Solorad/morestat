@@ -1,26 +1,23 @@
 package com.morenkov.morestat.web;
 
 import com.morenkov.morestat.dto.users.basicinfo.UserInfoData;
-import com.morenkov.morestat.dto.users.feed.MediaFeed;
-import com.morenkov.morestat.dto.users.feed.MediaFeedData;
-import com.morenkov.morestat.exceptions.InstagramException;
+import com.morenkov.morestat.service.SnapshotService;
 import com.morenkov.morestat.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.morenkov.morestat.config.security.InstagramAuthenticationFilter.USER;
 
@@ -36,10 +33,12 @@ public class MainPageController {
     public static final String ACTIVE_TAB = "activeTab";
 
     private final UserInfoService userInfoService;
+    private final SnapshotService snapshotService;
 
     @Autowired
-    public MainPageController(UserInfoService userInfoService) {
+    public MainPageController(UserInfoService userInfoService, SnapshotService snapshotService) {
         this.userInfoService = userInfoService;
+        this.snapshotService = snapshotService;
     }
 
 
@@ -60,36 +59,15 @@ public class MainPageController {
         model.addAttribute(ACTIVE_TAB, "profile");
         UserInfoData userInfoData = (UserInfoData) httpSession.getAttribute(USER);
         model.addAttribute("userInfoData", userInfoData);
-
-        model.addAttribute("oauth2ClientContext", httpSession.getAttribute(USER));
-
-        try {
-            MediaFeed recentMediaFeed = userInfoService.getRecentMediaFeed(userInfoData.getId());
-
-            List<MediaFeedData> mediaFeed = recentMediaFeed.getData();
-            int totalLikes = mediaFeed.stream().collect(
-                    Collectors.summingInt((MediaFeedData data) -> data.getLikes().getCount()));
-            int totalComments = mediaFeed.stream().collect(
-                    Collectors.summingInt((MediaFeedData data) -> data.getComments().getCount()));
-
-            List<MediaFeedData> sortedByLikesMedia = new ArrayList<>(mediaFeed);
-            sortedByLikesMedia.sort(
-                    (MediaFeedData data1, MediaFeedData data2)
-                            -> data2.getLikes().getCount() - data1.getLikes().getCount());
-            List<MediaFeedData> sortedByCommentsMedia = new ArrayList<>(mediaFeed);
-            sortedByCommentsMedia.sort(
-                    (MediaFeedData data1, MediaFeedData data2)
-                            -> data2.getComments().getCount() - data1.getComments().getCount());
-
-            model.addAttribute("totalLikes", totalLikes);
-            model.addAttribute("totalComments", totalComments);
-            model.addAttribute("sortedByLikesMedia", sortedByLikesMedia);
-            model.addAttribute("sortedByCommentsMedia", sortedByCommentsMedia);
-
-        } catch (InstagramException e) {
-            log.error("Instagram exception occurred.");
-        }
         return "profile";
+    }
+
+    @RequestMapping(value = {"/retrieveUserSnapshot"}, method = RequestMethod.POST)
+    @ResponseBody
+    public ListenableFuture<ResponseEntity<?>> buildSnapshot(HttpSession httpSession) {
+        log.debug("In buildSnapshot!");
+        return snapshotService.retrieveUserSnapshot((UserInfoData) httpSession.getAttribute(USER));
+
     }
 
 

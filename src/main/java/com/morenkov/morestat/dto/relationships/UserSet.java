@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author emorenkov
  */
-public class RelationshipStatus {
+public class UserSet {
 
     private Set<User> data;
 
