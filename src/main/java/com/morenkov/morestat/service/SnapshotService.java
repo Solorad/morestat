@@ -89,7 +89,7 @@ public class SnapshotService {
         processMedia(userStateSnapshot, accessToken, response);
     }
 
-    private void getMediaFeedAndProcessIt(UserStateSnapshot userStateSnapshot, String accessToken, Long minId) {
+    private void getMediaFeedAndProcessIt(UserStateSnapshot userStateSnapshot, String accessToken, String minId) {
         ResponseEntity<MediaFeed> response = restTemplate.getForEntity(Queries.RECENT_MEDIA_WITH_MIN_ID, MediaFeed.class, accessToken, minId);
         processMedia(userStateSnapshot, accessToken, response);
     }
@@ -98,28 +98,38 @@ public class SnapshotService {
                               ResponseEntity<MediaFeed> response) {
         List<MediaFeedData> data = response.getBody().getData();
 
-        Long minId = processMediaFeedAndReturnFirstId(data, userStateSnapshot, accessToken);
-        if (data.size() > 20 && minId != null) {
+        String minId = processMediaFeedAndReturnFirstId(data, userStateSnapshot, accessToken);
+        if (data.size() >= 20 && minId != null) {
             getMediaFeedAndProcessIt(userStateSnapshot, accessToken, minId);
         }
     }
 
-    private Long processMediaFeedAndReturnFirstId(List<MediaFeedData> data, UserStateSnapshot userStateSnapshot,
+    private String processMediaFeedAndReturnFirstId(List<MediaFeedData> data, UserStateSnapshot userStateSnapshot,
                                                   String accessToken) {
         Integer feedLikes = 0;
         Integer feedComments = 0;
 
+        Long theOldestMediaCreationTime = Long.MAX_VALUE;
+        String theOldestMediId = null;
         for (MediaFeedData media : data) {
             feedLikes += media.getLikes().getCount();
             feedComments += media.getComments().getCount();
             ResponseEntity<UserSet> responseEntity = restTemplate
                     .getForEntity(Queries.WHO_LIKED_LIST, UserSet.class, media.getId(), accessToken);
             Set<User> likers = responseEntity.getBody().getData();
-
+            try {
+                if (theOldestMediaCreationTime > Long.valueOf(media.getCreatedTime())) {
+                    theOldestMediId = media.getId();
+                }
+                theOldestMediaCreationTime = Math.min(theOldestMediaCreationTime, Long.valueOf(media.getCreatedTime()));
+            } catch (Exception e) {
+                log.error(media);
+                log.error(e);
+            }
         }
         userStateSnapshot.setTotalLikes(userStateSnapshot.getTotalLikes() + feedLikes);
         userStateSnapshot.setTotalComments(userStateSnapshot.getTotalComments() + feedComments);
-        return null;
+        return theOldestMediId;
     }
 
     private Set<User> getRelations(String query, String accessToken) {
