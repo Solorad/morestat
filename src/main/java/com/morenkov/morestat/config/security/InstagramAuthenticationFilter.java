@@ -3,6 +3,7 @@ package com.morenkov.morestat.config.security;
 import com.morenkov.morestat.dto.InstagramResult;
 import com.morenkov.morestat.dto.users.basicinfo.UserInfo;
 import com.morenkov.morestat.dto.users.basicinfo.UserInfoData;
+import com.morenkov.morestat.utils.Queries;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +48,6 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
     private final OAuth2ProtectedResourceDetails client;
     private final OAuth2ClientContext context;
 
-    private final String userInfoUri;
     private final String redirectUri;
 
     private AuthenticationDetailsSource<HttpServletRequest, ?>
@@ -63,7 +63,6 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
         this.context = oauth2ClientContext;
         this.client = client;
         this.restTemplate = restTemplate;
-        userInfoUri = environment.getProperty("instagram.resource.userInfoUri");
         redirectUri = environment.getProperty("instagram.resource.redirectUri");
     }
 
@@ -119,7 +118,7 @@ public class InstagramAuthenticationFilter extends AbstractAuthenticationProcess
 
     private UserInfo getSelfResult(String accessToken) {
         ResponseEntity<UserInfo> exchange = restTemplate
-                .exchange(userInfoUri, HttpMethod.GET, null, UserInfo.class, accessToken);
+                .exchange(Queries.SELF_INFO, HttpMethod.GET, null, UserInfo.class, accessToken);
         return exchange.getBody();
     }
 

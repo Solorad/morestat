@@ -5,6 +5,8 @@ package com.morenkov.morestat.utils;
  */
 public interface Queries {
 
+    String SELF_INFO = "https://api.instagram.com/v1/users/self?access_token={access_token}";
+
     String FOLLOWS = "https://api.instagram.com/v1/data/self/FOLLOWS?access_token={access_token}";
     String FOLLOWED_BY = "https://api.instagram.com/v1/data/self/followed-by?access_token={access_token}";
     String RECENT_MEDIA = "https://api.instagram.com/v1/data/{user_id}/media/recent?access_token={access_token}";

@@ -71,3 +71,6 @@
 </div>
 
 <#include "/common/footer.ftl">
+<script type="text/javascript" src="/js/profile.js"></script>
+</body>
+</html>
