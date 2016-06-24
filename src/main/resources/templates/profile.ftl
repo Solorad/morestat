@@ -15,13 +15,13 @@
                     <img class="user__avatar__img" src="${userInfoData.profilePicture}"/> <br/>
                 </div>
                 <div class="user__media">
-                    <span class="bold_text">${userInfoData.getCounts().follows}</span>
+                    <span class="bold_text">${userInfoData.getCounts().followedBy}</span>
                     <span class="general_text">
                         <@spring.message "morestat.profile-page.followers"/>
                     </span>
                     <br/>
                     <span>
-                        <span class="bold_text">${userInfoData.getCounts().followedBy}</span>
+                        <span class="bold_text">${userInfoData.getCounts().follows}</span>
                             <span class="general_text">
                                 <@spring.message "morestat.profile-page.following"/>
                             </span>

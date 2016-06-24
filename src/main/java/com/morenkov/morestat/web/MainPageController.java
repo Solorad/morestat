@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -34,11 +35,14 @@ public class MainPageController {
 
     private final UserInfoService userInfoService;
     private final SnapshotService snapshotService;
+    private final OAuth2ClientContext oauth2ClientContext;
 
     @Autowired
-    public MainPageController(UserInfoService userInfoService, SnapshotService snapshotService) {
+    public MainPageController(UserInfoService userInfoService, SnapshotService snapshotService,
+                              OAuth2ClientContext oauth2ClientContext) {
         this.userInfoService = userInfoService;
         this.snapshotService = snapshotService;
+        this.oauth2ClientContext = oauth2ClientContext;
     }
 
 
@@ -66,8 +70,8 @@ public class MainPageController {
     @ResponseBody
     public ListenableFuture<ResponseEntity<?>> buildSnapshot(HttpSession httpSession) {
         log.debug("In buildSnapshot!");
-        return snapshotService.retrieveUserSnapshot((UserInfoData) httpSession.getAttribute(USER));
-
+        UserInfoData userInfoData = (UserInfoData) httpSession.getAttribute(USER);
+        return snapshotService.retrieveUserSnapshot(userInfoData, oauth2ClientContext.getAccessToken());
     }
 
 

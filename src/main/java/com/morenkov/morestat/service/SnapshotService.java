@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -39,21 +38,19 @@ public class SnapshotService {
     private static final Logger log = LogManager.getLogger(SnapshotService.class);
 
     private final RestTemplate restTemplate;
-    private final OAuth2ClientContext oauth2ClientContext;
     private final UserStateSnapshotRepository userStateSnapshotRepository;
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public SnapshotService(RestTemplate restTemplate, OAuth2ClientContext oauth2ClientContext,
+    public SnapshotService(RestTemplate restTemplate,
                            UserStateSnapshotRepository userStateSnapshotRepository, MongoTemplate mongoTemplate) {
         this.restTemplate = restTemplate;
-        this.oauth2ClientContext = oauth2ClientContext;
         this.userStateSnapshotRepository = userStateSnapshotRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
     @Async
-    public ListenableFuture<ResponseEntity<?>> retrieveUserSnapshot(UserInfoData userInfoData) {
+    public ListenableFuture<ResponseEntity<?>> retrieveUserSnapshot(UserInfoData userInfoData, OAuth2AccessToken accessToken) {
         Query query = new Query();
         query.with(new Sort(Sort.Direction.DESC, "created"));
 
@@ -61,11 +58,11 @@ public class SnapshotService {
         if (userStateSnapshot != null && HOURS.between(userStateSnapshot.getCreated(), LocalDateTime.now()) < 12) {
             return  new AsyncResult<>(new ResponseEntity<>(userStateSnapshot, HttpStatus.OK));
         }
-        return buildUserNewSnapshot(userInfoData);
+        return buildUserNewSnapshot(userInfoData, accessToken);
     }
 
     @Async
-    public ListenableFuture<ResponseEntity<?>> buildUserNewSnapshot(UserInfoData userInfoData) {
+    public ListenableFuture<ResponseEntity<?>> buildUserNewSnapshot(UserInfoData userInfoData, OAuth2AccessToken accessToken) {
         UserStateSnapshot userStateSnapshot = new UserStateSnapshot();
         if (userInfoData == null) {
             log.error("UserInfoData must not be null.");
@@ -75,7 +72,6 @@ public class SnapshotService {
         userStateSnapshot.setId(userInfoData.getId());
         userStateSnapshot.setMedia(userInfoData.getCounts().getMedia());
 
-        OAuth2AccessToken accessToken = oauth2ClientContext.getAccessToken();
         if (accessToken == null || StringUtils.isEmpty(accessToken.getValue())) {
             log.error("Access token must not be null.");
             return new AsyncResult<>(new ResponseEntity<>("Access token must not be null.", HttpStatus.FORBIDDEN));
@@ -127,8 +123,7 @@ public class SnapshotService {
     }
 
     private Set<User> getRelations(String query, String accessToken) {
-        ResponseEntity<UserSet> response =
-                restTemplate.getForEntity(query, UserSet.class, accessToken);
+        ResponseEntity<UserSet> response = restTemplate.getForEntity(query, UserSet.class, accessToken);
         return response.getBody().getData();
     }
 }

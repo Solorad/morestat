@@ -2,9 +2,11 @@ var Morestat = Morestat || {};
 
 Morestat.General = (function() {
     function init() {
-        $("#logout").on("click", function() {
-            console.log("logout");
-            $.post("logout");
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajaxSetup({
+            headers: { "X-CSRF-TOKEN" : token }
         });
     }
 
