@@ -66,6 +66,19 @@ public class MainPageController {
         return "profile";
     }
 
+
+    @RequestMapping(value = {"/privacypolicy"})
+    public String privacypolicy(Model model) {
+        model.addAttribute(ACTIVE_TAB, "privacypolicy");
+        return "privacypolicy";
+    }
+
+    @RequestMapping(value = {"/contacts"})
+    public String contacts(Model model) {
+        model.addAttribute(ACTIVE_TAB, "contacts");
+        return "about";
+    }
+
     @RequestMapping(value = {"/retrieveUserSnapshot"}, method = RequestMethod.POST)
     @ResponseBody
     public ListenableFuture<ResponseEntity<?>> buildSnapshot(HttpSession httpSession) {

@@ -3,6 +3,8 @@
     <div class="container-fluid">
         <hr>
         <p><a href="http://vk.com/solorad">Morenkov Evgenii</a> 2016</p>
+        <p><a href="/contact">Contact us</p>
+        <p><a href="/privacypolicy">Privacy policy</a></p>
     </div>
 </footer>
 

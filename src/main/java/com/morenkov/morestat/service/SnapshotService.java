@@ -99,9 +99,9 @@ public class SnapshotService {
         List<MediaFeedData> data = response.getBody().getData();
 
         String minId = processMediaFeedAndReturnFirstId(data, userStateSnapshot, accessToken);
-        if (data.size() >= 20 && minId != null) {
-            getMediaFeedAndProcessIt(userStateSnapshot, accessToken, minId);
-        }
+//        if (data.size() >= 20 && minId != null) {
+//            getMediaFeedAndProcessIt(userStateSnapshot, accessToken, minId);
+//        }
     }
 
     private String processMediaFeedAndReturnFirstId(List<MediaFeedData> data, UserStateSnapshot userStateSnapshot,
