@@ -6,6 +6,7 @@ import com.morenkov.morestat.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.LocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.Locale;
 
 import static com.morenkov.morestat.config.security.InstagramAuthenticationFilter.USER;
 
@@ -36,13 +41,15 @@ public class MainPageController {
     private final UserInfoService userInfoService;
     private final SnapshotService snapshotService;
     private final OAuth2ClientContext oauth2ClientContext;
+    private final LocaleResolver localeResolver;
 
     @Autowired
     public MainPageController(UserInfoService userInfoService, SnapshotService snapshotService,
-                              OAuth2ClientContext oauth2ClientContext) {
+                              OAuth2ClientContext oauth2ClientContext, LocaleResolver localeResolver) {
         this.userInfoService = userInfoService;
         this.snapshotService = snapshotService;
         this.oauth2ClientContext = oauth2ClientContext;
+        this.localeResolver = localeResolver;
     }
 
 
@@ -68,9 +75,14 @@ public class MainPageController {
 
 
     @RequestMapping(value = {"/privacypolicy"})
-    public String privacypolicy(Model model) {
+    public String privacypolicy(Model model, HttpServletRequest httpRequest) {
         model.addAttribute(ACTIVE_TAB, "privacypolicy");
-        return "privacypolicy";
+        Locale locale = localeResolver.resolveLocale(httpRequest);
+        log.debug("current locale = '{}'", locale);
+        if ("ru".equals(locale.getLanguage())) {
+            return "static/privacypolicy_ru";
+        }
+        return "static/privacypolicy_en";
     }
 
     @RequestMapping(value = {"/contacts"})
