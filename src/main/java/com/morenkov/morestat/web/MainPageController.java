@@ -59,7 +59,6 @@ public class MainPageController {
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             return "redirect:profile";
         }
-        model.addAttribute("unauthorized", true);
         model.addAttribute("activeTab", "index");
         return "index";
     }
@@ -70,6 +69,7 @@ public class MainPageController {
         model.addAttribute(ACTIVE_TAB, "profile");
         UserInfoData userInfoData = (UserInfoData) httpSession.getAttribute(USER);
         model.addAttribute("userInfoData", userInfoData);
+        model.addAttribute("authorized", true);
         return "profile";
     }
 

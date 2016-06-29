@@ -8,7 +8,7 @@
         </div>
 
         <div>
-        <#if !unauthorized??>
+        <#if authorized??>
             <ul class="nav navbar-nav">
                 <li class="nav-item<#if activeTab == 'profile'> active</#if>">
                     <a href="profile" class="nav-link"> <@spring.message "morestat.main-page.profile"/></a>
@@ -25,7 +25,7 @@
             </ul>
         </#if>
             <ul class="nav nav-pills pull-xs-right">
-                <#if unauthorized??>
+                <#if !authorized??>
                     <li class="nav-item">
                         <a href="https://api.instagram.com/oauth/authorize/?client_id=df5cc67d71e04b1b9a89ca9e1572a801&redirect_uri=http://localhost:8080/login&response_type=code&scope=public_content+likes+comments+follower_list+relationships"
                            class="updated_padding nav-link btn-info-outline">
@@ -44,7 +44,7 @@
                             <div class="header__language_eng"></div>
                         </a>
                     </li>
-                <#if !unauthorized??>
+                <#if authorized??>
                     <li class="nav-item">
                         <form action="/logout" method="post">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

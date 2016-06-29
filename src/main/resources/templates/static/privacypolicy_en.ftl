@@ -19,15 +19,10 @@
                 <li> to get your instagram account statistics;</li>
                 <li> to improve the quality of the Site, of the Morestat;</li>
                 <li> to understand our visitors better in order to help satisfy them;</li>
-                <li> to let us identify you in order to contact you.</li>
             </ul>
             <p>Morestat <b>doesn't</b> share any personal data
                 We undertake not to retain your personal data longer than the length of time necessary to manage the
                 commercial relationship.
-                In the event that your account becomes inactive, the personal data associated with your account will be
-                automatically deleted after three years, except for that data which we would need to preserve as proof,
-                for
-                legal or administrative needs, or in order to comply with applicable legislation.
             </p>
         </div>
     </div>
@@ -110,26 +105,15 @@
     </div>
 
     <div class="card">
-        <div class="card-header">RIGHTS OF OPPOSITION, ACCESS, RECTIFICATION AND DELETION</div>
-        <div class="card-block">
-            Users may at any time, access their data in order to modify, rectify, or totally or partially delete
-            their personal
-            data, by logging into their accounts and using the “delete account” function.
-
-            Users may also modify or delete their personal data by sending a letter to the following address: to
-            morestat@google.com.
-        </div>
-    </div>
-
-    <div class="card">
         <div class="card-header">CONTACT</div>
         <div class="card-block">
             If you have any questions about this Privacy Policy, or questions about the use of the Site, please
             contact us by
-            email at the following address: morestat@google.com.
+            email at the following address: <a href="mailto:morenkov.evgenii@gmail.com" target="_top">morenkov.evgenii@gmail.com</a>.
         </div>
     </div>
 </div>
+
 
 <#include "/common/footer.ftl">
 </body>

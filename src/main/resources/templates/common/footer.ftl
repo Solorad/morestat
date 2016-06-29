@@ -1,9 +1,9 @@
 <!-- Footer -->
-<footer class="footer-white">
-    <div class="container-fluid">
-        <div class="footer-col"><a href="/contact">Contact us</a></div>
-        <div class="footer-col"><a href="/privacypolicy">Privacy policy</a></div>
-        <div class="footer-col"><a href="http://vk.com/solorad">Morenkov Evgenii</a> 2016</div>
+<footer class="footer" id="footer">
+    <div class="container footer-elements">
+        <span><a href="/contact">Contact us</a></span>
+        <span><a href="/privacypolicy">Privacy policy</a></span>
+        <span class="footer-col"><a href="http://vk.com/solorad">Morenkov Evgenii</a> 2016</span>
     </div>
 </footer>
 
