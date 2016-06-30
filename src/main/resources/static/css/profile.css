@@ -71,10 +71,6 @@
     /*background-color: rgba(39, 184, 70, 0.54);*/
 }
 
-.card {
-
-}
-
 .insta-image {
     width: 200px;
     max-height: 300px;
@@ -84,4 +80,9 @@
 .layout__content {
     margin: 10px;
     width: 100% !important;
+}
+
+
+.spinner {
+    margin-left: 5rem;
 }

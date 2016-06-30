@@ -1,5 +1,6 @@
 <#include "/common/header.ftl">
 <link href="css/profile.css" rel="stylesheet"/>
+<script type="text/javascript" src="/webjars/spin-js/2.1.0/spin.js"></script>
 </head>
 
 <body>
@@ -47,10 +48,10 @@
                     <#--</div>-->
                 <#--</div>-->
             </div>
-            <div class="totalInfo">
-                More data is gathering...
+            <div class="info" style="">
+                <div class="totalInfo" id="spinner"></div>
             </div>
-            <#--<div class="profile_cards">-->
+        <#--<div class="profile_cards">-->
                 <#--<#list sortedByLikesMedia as media>-->
                     <#--<div class="profile_card">-->
                         <#--<div class="card">-->
